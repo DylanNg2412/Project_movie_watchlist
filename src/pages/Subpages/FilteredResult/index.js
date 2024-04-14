@@ -26,7 +26,7 @@ export function NoMoviesFoundMessage({ mode, selectedGenre, search }) {
           variant="subtitle1"
           style={{ fontWeight: "bold", margin: "10px 0" }}
         >
-          No movies found for the selected genres: {selectedGenre.join(", ")}
+          No movies found for the selected genres: {selectedGenre.join(", ")} .
         </Typography>
       )}
     </>

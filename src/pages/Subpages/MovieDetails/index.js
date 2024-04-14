@@ -12,7 +12,6 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
 import AddIcon from "@mui/icons-material/Add";
 import Swal from "sweetalert2";
@@ -26,11 +25,7 @@ export default function MovieDetails() {
   const movie = movies.find((m) => m.id === id);
   const [rating, setRating] = useState(movie.average_rating);
   const [userRating, setUserRating] = useState(movie.user_rating);
-  const [lock, setLock] = useState(true);
   const [watchList, setWatchList] = useState(movie.watchlist);
-  const lockHandler = () => {
-    setLock(!lock);
-  };
 
   const changeRatingHandler = (e) => {
     setUserRating(e.target.value);
@@ -67,13 +62,10 @@ export default function MovieDetails() {
   };
 
   const AddToWatchList = () => {
-
     setWatchList(!watchList);
-   
   };
 
   useEffect(() => {
-    
     const updateMovie = movies.map((m) => {
       if (m.id === movie.id) {
         return { ...m, watchlist: watchList };
@@ -81,8 +73,7 @@ export default function MovieDetails() {
       return m;
     });
     localStorage.setItem("Movies", JSON.stringify(updateMovie));
-}, [watchList, setWatchList, movie, movies]);
-
+  }, [watchList, setWatchList, movie, movies]);
 
   return (
     <Container
@@ -163,7 +154,7 @@ export default function MovieDetails() {
                 <LockOpenOutlinedIcon />
               </IconButton>
             </Box>
-            <Box className="movieDetailsBox2">
+            {/* <Box className="movieDetailsBox2">
               <Typography variant="h6">User Rating:</Typography>
               <Rating
                 name="half-rating"
@@ -175,7 +166,7 @@ export default function MovieDetails() {
               <IconButton onClick={lockHandler} style={{ color: "white" }}>
                 {lock ? <LockOutlinedIcon /> : <LockOpenOutlinedIcon />}
               </IconButton>
-            </Box>
+            </Box> */}
 
             <Typography
               variant="h6"
@@ -197,10 +188,12 @@ export default function MovieDetails() {
                       }
                     : { backgroundColor: "black", marginBottom: "50px" }
                 }
-                startIcon={watchList ?  <DoNotDisturbIcon />:<AddIcon /> }
+                startIcon={watchList ? <DoNotDisturbIcon /> : <AddIcon />}
                 onClick={AddToWatchList}
               >
-                {watchList ? "Remove movie from WatchList ": "Add to WatchList"}
+                {watchList
+                  ? "Remove movie from WatchList "
+                  : "Add to WatchList"}
               </Button>
             </Box>
           </Grid>
@@ -209,7 +202,7 @@ export default function MovieDetails() {
         <IconButton
           // component={Link}
           // to={"/PopularMovies"}
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/")}
           edge="end"
           style={{
             position: "absolute",

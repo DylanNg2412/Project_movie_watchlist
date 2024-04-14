@@ -64,6 +64,7 @@ export default function EditPopularMovie() {
   const [date, setDate] = useState(movie.date);
   const [genre, setGenre] = useState(movie.genre);
   const [country, setCountry] = useState(movie.country);
+  const [rating, setRating] = useState(movie.average_rating);
   const [description, setDescription] = useState(movie.description);
   const [image, setImage] = useState(movie.image);
 
@@ -102,6 +103,7 @@ export default function EditPopularMovie() {
         date: date,
         genre: genre,
         country: country,
+        average_rating: rating,
         description: description,
         image: image,
         watchlist: false,
@@ -115,139 +117,150 @@ export default function EditPopularMovie() {
 
   return (
     <>
-    <Container
-      maxWidth="sm"
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "90vh",
-      }}
-    >
-      <Grid
+      <Container
+        maxWidth="sm"
         sx={{
-          backgroundColor: "white",
-          color: "black",
-          padding: "20px",
-          borderRadius: "8px",
-          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "90vh",
         }}
       >
-        <Typography
-          variant="h3"
+        <Grid
           sx={{
-            "@media (max-width: 336px)": {
-              fontSize: "32px",
-            },
+            backgroundColor: "white",
+            color: "black",
+            padding: "20px",
+            borderRadius: "8px",
+            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
           }}
-          gutterBottom
         >
-          Edit Movie
-        </Typography>
-        <form onSubmit={submitHandler} style={{ width: "100%" }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                label="Title"
-                variant="outlined"
-                fullWidth
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                label="Date"
-                variant="outlined"
-                fullWidth
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel id="demo-multiple-name-label">Genre</InputLabel>
-                <Select
-                  labelId="demo-multiple-name-label"
-                  id="demo-multiple-name"
-                  multiple
-                  value={genre}
-                  onChange={(e) => setGenre(e.target.value)}
-                  input={<OutlinedInput label="Name" />}
-                  MenuProps={MenuProps}
+          <Typography
+            variant="h3"
+            sx={{
+              "@media (max-width: 336px)": {
+                fontSize: "32px",
+              },
+            }}
+            gutterBottom
+          >
+            Edit Movie
+          </Typography>
+          <form onSubmit={submitHandler} style={{ width: "100%" }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  label="Title"
+                  variant="outlined"
+                  fullWidth
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  label="Date"
+                  variant="outlined"
+                  fullWidth
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <FormControl fullWidth variant="outlined">
+                  <InputLabel id="demo-multiple-name-label">Genre</InputLabel>
+                  <Select
+                    labelId="demo-multiple-name-label"
+                    id="demo-multiple-name"
+                    multiple
+                    value={genre}
+                    onChange={(e) => setGenre(e.target.value)}
+                    input={<OutlinedInput label="Name" />}
+                    MenuProps={MenuProps}
+                  >
+                    {genres.map((g) => (
+                      <MenuItem
+                        key={g}
+                        value={g}
+                        style={getStyles(g, genre, theme)}
+                      >
+                        {g}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  label="Country"
+                  variant="outlined"
+                  fullWidth
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  label="Average Rating"
+                  variant="outlined"
+                  fullWidth
+                  type="number"
+                  value={rating}
+                  onChange={(e) => setRating(e.target.value)}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  label="Description"
+                  variant="outlined"
+                  fullWidth
+                  multiline
+                  rows={4}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Input
+                  type="file"
+                  fullWidth
+                  disableUnderline
+                  onChange={onChangeHandler}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  component={Link}
+                  to={`/popularMovie/${id}`}
+                  fullWidth
+                  sx={{
+                    "@media (max-width: 336px)": {
+                      height: "61px",
+                    },
+                  }}
                 >
-                  {genres.map((g) => (
-                    <MenuItem
-                      key={g}
-                      value={g}
-                      style={getStyles(g, genre, theme)}
-                    >
-                      {g}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+                  Cancel
+                </Button>
+              </Grid>
+              <Grid item xs={6}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                >
+                  Save
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Country"
-                variant="outlined"
-                fullWidth
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Description"
-                variant="outlined"
-                fullWidth
-                multiline
-                rows={4}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Input
-                type="file"
-                fullWidth
-                disableUnderline
-                onChange={onChangeHandler}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Button
-                variant="contained"
-                color="secondary"
-                component={Link}
-                to={`/popularMovie/${id}`}
-                fullWidth
-                sx={{
-                  "@media (max-width: 336px)": {
-                    height: "61px",
-                  },
-                }}
-              >
-                Cancel
-              </Button>
-            </Grid>
-            <Grid item xs={6}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-              >
-                Edit Movie
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
-      </Grid>
-    </Container>
+          </form>
+        </Grid>
+      </Container>
     </>
   );
 }

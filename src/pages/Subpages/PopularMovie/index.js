@@ -1,11 +1,15 @@
-import { Grid, Typography, Box } from "@mui/material";
-import Navbar from "../../components/Navbar";
+import { Grid, Typography, Box, Rating } from "@mui/material";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function PopularMovie({ movie }) {
+  const [r, setR] = useState(movie.average_rating);
   if (!movie) return <Typography variant="h2">Please Add Movie</Typography>;
-
   return (
-    <>
+    <Link
+      to={`/popularMovie/${movie.id}`}
+      style={{ textDecoration: "none", color: "inherit" }}
+    >
       <Grid
         container
         spacing={2}
@@ -14,6 +18,7 @@ export default function PopularMovie({ movie }) {
           margin: "20px 0",
           borderRadius: "4px",
           padding: "0",
+          height: "100%",
         }}
       >
         <Grid
@@ -22,6 +27,7 @@ export default function PopularMovie({ movie }) {
           md={6}
           style={{
             padding: "0",
+            display: "flex",
           }}
         >
           <Box
@@ -56,9 +62,49 @@ export default function PopularMovie({ movie }) {
             }}
           >
             <Box>
-              <Typography variant="h4" gutterBottom>
-                {movie.title}
-              </Typography>
+              <Grid
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  margin: "10px 0",
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant="h4" gutterBottom>
+                  {movie.title}
+                </Typography>
+                <Typography
+                  variant="body3"
+                  sx={{
+                    backgroundColor: "black",
+                    color: "white",
+                    padding: "5px 10px",
+                    borderRadius: "10px",
+                    "@media (min-width: 900px)": {
+                      display: "none",
+                    },
+                  }}
+                >
+                  {movie.genre}
+                </Typography>
+              </Grid>
+              <Box
+                style={{
+                  display: "flex",
+                  marginBottom: "10px",
+                }}
+              >
+                <Rating
+                  name="half-rating"
+                  precision={0.1}
+                  readOnly
+                  value={r}
+                  style={{ marginRight: "5px" }}
+                ></Rating>
+                <Typography variant="body1" gutterBottom fontWeight="bold">
+                  {movie.average_rating}
+                </Typography>
+              </Box>
               <Typography variant="body1" gutterBottom>
                 {movie.description}
               </Typography>
@@ -74,17 +120,22 @@ export default function PopularMovie({ movie }) {
                 padding: "10px",
                 borderTopLeftRadius: "5px",
                 borderTopRightRadius: "5px",
+                display: "flex",
                 "@media (max-width: 900px)": {
                   borderRight: "2px solid white",
                   display: "none",
                 },
               }}
             >
-              <Typography variant="body2">{movie.genre}</Typography>
+              {movie.genre.map((g) => (
+                <Typography variant="body2" style={{ padding: "0 5px" }}>
+                  {g}
+                </Typography>
+              ))}
             </Box>
           </Box>
         </Grid>
       </Grid>
-    </>
+    </Link>
   );
 }

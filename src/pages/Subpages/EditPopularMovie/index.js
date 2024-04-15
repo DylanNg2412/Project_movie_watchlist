@@ -209,7 +209,6 @@ export default function EditPopularMovie() {
                   type="number"
                   value={rating}
                   onChange={(e) => setRating(e.target.value)}
-                  disabled
                 />
               </Grid>
               <Grid item xs={12}>
